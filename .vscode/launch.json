@@ -9,6 +9,16 @@
             "projectName": "Payroll-1",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PayRollwiththebig3Application<PayRollwiththebig3>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.gcu.PayRollwiththebig3Application",
+            "projectName": "PayRollwiththebig3",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

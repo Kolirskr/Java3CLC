@@ -18,4 +18,21 @@ public class Employee {
     }
 
 public String getId() { return id; }
-public void setId(String id) { this.id = id; }
+public void setId(String id) { this.id = id; 
+
+}
+public String getusername() { return username; }
+public void setusername(String username) { this.username= username;
+}
+
+public String getpassword() { return password; }
+public void setpassword(String password) { this.password = password;
+}
+
+public String getdepartment() { return  department; }
+public void setdepartment(String department) { this.department = department;
+}
+public double getsalary() { return  salary; }
+public void setsalary(double salary) { this.salary = salary;
+}
+}
