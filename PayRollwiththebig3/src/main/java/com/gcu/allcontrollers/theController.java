@@ -1,6 +1,6 @@
 package com.gcu.allcontrollers;
 
-
+// this class controll and answer the request of the web. hint: the returns (home,employee-signin, manager-signin, register)
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
