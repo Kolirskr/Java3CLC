@@ -15,6 +15,7 @@ public class Employee {
         this.password = password;
         this.department = department;
         this.salary = salary;
+        
     }
 
 public String getId() { return id; }

@@ -13,29 +13,21 @@ import com.gcu.model.Employee;
 @Controller
 @RequestMapping("/")
 public class theController {
-
-   
-    @GetMapping
+     @GetMapping
     public String home() {
         return "home"; 
     }
-
-    
     @GetMapping("/employee-signin")
     public String employeeSignIn() {
         return "employee-signin"; 
     }
-
-    
-    @GetMapping("/manager-signin")
+   @GetMapping("/manager-signin")
     public String managerSignIn() {
         return "manager-signin"; 
     }
-
-    
-    @GetMapping("/register")
+   @GetMapping("/register")
     public String register() {
-        return "register"; 
+return "register";
     }
     @GetMapping("/manager/addnew-employee") // when manager signs in it can add new employee 
     public String createEmployeeForm() {

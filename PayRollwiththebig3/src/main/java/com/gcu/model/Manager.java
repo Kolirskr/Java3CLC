@@ -6,7 +6,6 @@ public class Manager {
     private String password;
     private String role = "manager"; 
 
-    // this is constructors
     public Manager() {}
 
     public Manager(String id, String username, String password) {
@@ -14,8 +13,6 @@ public class Manager {
         this.username = username;
         this.password = password;
     }
-
-    // this is the getter and seter obviously 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
