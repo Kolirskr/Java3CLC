@@ -16,32 +16,40 @@ import com.gcu.model.User;
 @EnableWebSecurity
 @Controller
 @RequestMapping("/")
-public class theController {
+public class theController 
+{
      @GetMapping
-    public String home() {
+    public String home() 
+    {
         return "home"; 
     }
     @GetMapping("/employee-signin")
-    public String employeeSignIn() {
+    public String employeeSignIn() 
+    {
         return "employee-signin"; 
     }
    @GetMapping("/manager-signin")
-    public String managerSignIn() {
+    public String managerSignIn() 
+    {
         return "manager-signin"; 
     }
    @GetMapping("/register")
-    public String register() {
+    public String register() 
+    {
 return "register";
     }
     @GetMapping("/login")
-    public String login() {
+    public String login() 
+    {
         return "login"; 
     }
     //this one handle the user Registration 
     // and if theres error retur to register page
     @PostMapping("/register")
-    public ModelAndView registerUser(@Validated User user, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
+    public ModelAndView registerUser(@Validated User user, BindingResult bindingResult)
+    {
+        if (bindingResult.hasErrors())
+        {
        return new ModelAndView ("register");
         }
         //processing the user data

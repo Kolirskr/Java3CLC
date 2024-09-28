@@ -9,7 +9,8 @@ public class Employee {
 
     public Employee() {}
 
-    public Employee(String id, String username, String password, String department, double salary) {
+    public Employee(String id, String username, String password, String department, double salary) 
+    {
         this.id = id;
         this.username = username;
         this.password = password;
