@@ -18,7 +18,7 @@ import com.gcu.model.User;
 @RequestMapping("/")
 public class theController 
 {
-     @GetMapping("/home")
+     @GetMapping
     public String home() 
     {
         return "home"; 
@@ -77,7 +77,7 @@ return "register";
         // extra things can be added for exampl saving the employee to a database
         System.out.println("Manager created Employee: " + username);
         //after done send the manager back to his dashboard or to the beginnig page
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("/home");
     }
         
  }
