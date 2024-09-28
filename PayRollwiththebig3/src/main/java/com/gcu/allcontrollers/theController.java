@@ -58,10 +58,6 @@ public class theController
      return new ModelAndView("redirect:/login");
     }
 
-    @PostMapping("/login")
-    {
-        
-    }
 
     
     @GetMapping("/manager/addnew-employee") // when manager signs in it can add new employee 
