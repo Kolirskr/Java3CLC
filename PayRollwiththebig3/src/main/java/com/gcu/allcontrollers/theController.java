@@ -1,6 +1,7 @@
 package com.gcu.allcontrollers;
 
 // this class controll and answer the request of the web. hint: the returns (home,employee-signin, manager-signin, register)
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -8,12 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView; 
+import org.springframework.web.servlet.ModelAndView;
 
 import com.gcu.model.Employee;
 import com.gcu.model.User;
-
-
+@EnableWebSecurity
 @Controller
 @RequestMapping("/")
 public class theController {
