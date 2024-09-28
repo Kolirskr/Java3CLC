@@ -36,7 +36,7 @@ public class theController
    @GetMapping("/register")
     public String register() 
     {
-return "register";
+    return "register";
     }
     @GetMapping("/login")
     public String login() 
@@ -56,6 +56,11 @@ return "register";
      System.out.println("Registered User:" + user.getUsername());
       //after that success register return to home page
      return new ModelAndView("redirect:/");
+    }
+
+    @PostMapping("/login")
+    {
+        
     }
 
     
