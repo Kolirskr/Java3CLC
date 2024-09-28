@@ -1,7 +1,6 @@
 package com.gcu.allcontrollers;
 
 // this class controll and answer the request of the web. hint: the returns (home,employee-signin, manager-signin, register)
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -13,12 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gcu.model.Employee;
 import com.gcu.model.User;
-@EnableWebSecurity
+
 @Controller
 @RequestMapping("/")
 public class theController 
 {
-     @GetMapping
+     @GetMapping("/")
     public String home() 
     {
         return "home"; 
@@ -78,7 +77,7 @@ public class theController
         // extra things can be added for exampl saving the employee to a database
         System.out.println("Manager created Employee: " + username);
         //after done send the manager back to his dashboard or to the beginnig page
-        return new ModelAndView("/home");
+        return new ModelAndView ("redirect:/");
     }
         
  }
