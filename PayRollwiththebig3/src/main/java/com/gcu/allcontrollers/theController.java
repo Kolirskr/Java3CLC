@@ -54,8 +54,8 @@ public class theController
         }
         //processing the user data
      System.out.println("Registered User:" + user.getUsername());
-      //after that success register return to home page
-     return new ModelAndView("redirect:/");
+      //after that success register go to login page
+     return new ModelAndView("redirect:/login");
     }
 
     @PostMapping("/login")
