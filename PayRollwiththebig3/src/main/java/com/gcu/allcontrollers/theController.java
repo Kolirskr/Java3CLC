@@ -18,7 +18,7 @@ import com.gcu.model.User;
 @RequestMapping("/")
 public class theController 
 {
-     @GetMapping
+     @GetMapping("/home")
     public String home() 
     {
         return "home"; 
