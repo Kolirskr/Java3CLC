@@ -1,12 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Payroll System Home</title>
+<!-- Link to the external stylesheet -->
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
+    <header>
+        <img src="/images/logo.png" alt="Payroll System Logo" width="100">
 <h1> Welcome to the payrollSystem</h1>
-<a href="/employee-signin">Employee Sign-In</a><br>
-    <a href="/manager-signin">Manager Sign-In</a>
+</header>
+<nav>
+    <ul>
+        <li><a href="/employee-signin">Employee Sign-In</a></li>
+        <li><a href="/manager-signin">Manager Sign-In</a></li>
+        <li><a href="/register">Register</a></li>
+    </ul>
+</nav>
 </body>
 </html>

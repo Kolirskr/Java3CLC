@@ -1,0 +1,48 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* this is the Header styles */
+header {
+    text-align: center;
+    padding: 10px 0;
+}
+
+header img {
+    display: block;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #0056b3;
+    font-size: 2em;
+    margin: 10px 0;
+}
+
+/* this is Navigation bar styles */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #0056b3;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
