@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Entity  // Indicates that this is a JPA entity for future database use
+@Entity  
 public class User {
 
     @Id
