@@ -33,6 +33,10 @@ public class theController {
     public String register() {
 return "register";
     }
+    @GetMapping("/login")
+    public String login() {
+        return "login"; 
+    }
     //this one handle the user Registration 
     // and if theres error retur to register page
     @PostMapping("/register")
