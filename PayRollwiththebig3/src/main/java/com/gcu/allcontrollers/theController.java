@@ -37,6 +37,11 @@ public class theController
     {
     return "register";
     }
+    @GetMapping("/hoursheet")
+    public String hoursheet() 
+    {
+    return "hoursheets";
+    }
     @GetMapping("/login")
     public String login() 
     {
