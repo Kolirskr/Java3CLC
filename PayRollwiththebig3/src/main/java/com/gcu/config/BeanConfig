@@ -1,0 +1,17 @@
+package com.gcu.config;
+
+import com.gcu.business.HourSheetBusinessService;
+import com.gcu.business.HourSheetBusinessInterface;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class BeanConfig 
+{
+
+    @Bean(name = "hourSheetBusinessService", initMethod = "init", destroyMethod = "destroy")
+    public HourSheetBusinessInterface hourSheetBusinessService() 
+    {
+        return new HourSheetBusinessService();
+    }
+}

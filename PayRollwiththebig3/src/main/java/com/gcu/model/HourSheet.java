@@ -2,25 +2,32 @@ package com.gcu.model;
 
 public class HourSheet 
 {
-private int hours;
-private String approval;
+    private String employeeName;
+    private int hoursWorked;
 
-public HourSheet( int hours){
-    this.hours = hours;
-    this.approval = "pending"; // for at the begining normal when no approval yet 
+    public HourSheet(String employeeName, int hoursWorked) 
+    {
+        this.employeeName = employeeName;
+        this.hoursWorked = hoursWorked;
+    }
 
-}
-public int getHours(){
-    return hours;
+    public String getEmployeeName() 
+    {
+        return employeeName;
+    }
 
-}
-public void setHours (int hours) {
-        this.hours= hours;
-}
-public String getApproval(){
-    return approval;
-}
-public void setApproval( String approval){
-    this.approval= approval;
-}
+    public void setEmployeeName(String employeeName) 
+    {
+        this.employeeName = employeeName;
+    }
+
+    public int getHoursWorked() 
+    {
+        return hoursWorked;
+    }
+
+    public void setHoursWorked(int hoursWorked) 
+    {
+        this.hoursWorked = hoursWorked;
+    }
 }

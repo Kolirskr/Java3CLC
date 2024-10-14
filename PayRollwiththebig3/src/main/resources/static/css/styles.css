@@ -1,48 +1,69 @@
 /* Global styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #f7f7f7;
     margin: 0;
-    padding: 20px;
-}
-
-/* this is the Header styles */
-header {
-    text-align: center;
-    padding: 10px 0;
-}
-
-header img {
-    display: block;
-    margin: 0 auto;
-}
-
-h1 {
-    color: #0056b3;
-    font-size: 2em;
-    margin: 10px 0;
-}
-
-/* this is Navigation bar styles */
-nav ul {
-    list-style-type: none;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container Styling */
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+/* Page Heading */
+.container h1 {
     text-align: center;
+    margin-bottom: 20px;
 }
 
-nav ul li {
-    display: inline;
-    margin-right: 15px;
+/* Label and Input Field Styling */
+.container label {
+    display: block;
+    margin-bottom: 8px;
 }
 
-nav ul li a {
+.container input,
+.container select,
+.container button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Button Styling */
+.container button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.container button:hover {
+    background-color: #45a049;
+}
+
+/* Link Styling */
+.container a {
+    color: #007bff;
     text-decoration: none;
-    color: #0056b3;
-    font-weight: bold;
 }
 
-nav ul li a:hover {
+.container a:hover {
     text-decoration: underline;
 }
 
+/* Align Register Link */
+.register-link {
+    text-align: center;
+}
