@@ -12,8 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gcu.model.Employee;
 import com.gcu.model.User;
+<<<<<<< HEAD
 import com.gcu.model.HourSheet;
 
+=======
+import com.gcu.HourSheet;
+>>>>>>> 8c76801 (..)
 @Controller
 @RequestMapping("/")
 public class theController 

@@ -1,5 +1,4 @@
 package com.gcu.model;
-
 public class Manager {
     private String id;
     private String username;
