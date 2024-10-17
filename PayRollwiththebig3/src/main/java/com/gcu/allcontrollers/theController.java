@@ -1,18 +1,15 @@
 package com.gcu.allcontrollers;
 
-// this class controll and answer the request of the web. hint: the returns (home,employee-signin, manager-signin, register)
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.gcu.model.Employee;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.gcu.model.User;
-import com.gcu.model.HourSheet;
+import com.gcu.model.Employee;
 
 @Controller
 @RequestMapping("/")
@@ -21,70 +18,76 @@ public class theController
     @GetMapping("/home")
     public String home() 
     {
-        return "home";
+        // Instead of redirecting, render the "home.html" view directly
+        return "home"; 
     }
+
     @GetMapping("/employee-signin")
     public String employeeSignIn() 
     {
         return "employee-signin"; 
     }
-   @GetMapping("/manager-signin")
+
+    @GetMapping("/manager-signin")
     public String managerSignIn() 
     {
         return "manager-signin"; 
     }
-   @GetMapping("/register")
+
+    @GetMapping("/register")
     public String register() 
     {
-    return "register";
+        return "register"; // Load the registration page
     }
+
     @GetMapping("/hoursheet")
     public String hoursheet() 
     {
-    return "hoursheets";
+        return "hoursheet"; // Load the hoursheet page (assuming it exists)
     }
+
     @GetMapping("/login")
     public String login() 
     {
+        // Render the login page directly, instead of redirecting
         return "login"; 
     }
-    //this one handle the user Registration 
-    // and if theres error retur to register page
+
     @PostMapping("/register")
     public ModelAndView registerUser(@Validated User user, BindingResult bindingResult)
     {
         if (bindingResult.hasErrors())
         {
-       return new ModelAndView ("register");
+            return new ModelAndView("register");
         }
-        //processing the user data
-     System.out.println("Registered User:" + user.getUsername());
-      //after that success register go to login page
-     return new ModelAndView("redirect:/login");
+
+        // Process the user data (e.g., saving the user to the database)
+        System.out.println("Registered User: " + user.getUsername());
+
+        // After successful registration, redirect to the login page
+        return new ModelAndView("redirect:/login");
     }
 
-
-    
-    @GetMapping("/manager/addnew-employee") // when manager signs in it can add new employee 
-    public String createEmployeeForm() {
-        return "addnew-employee"; 
+    @GetMapping("/manager/addnew-employee")
+    public String createEmployeeForm() 
+    {
+        return "addnew-employee"; // Return the form for adding a new employee
     }
-//  the manager deals with addin new employee
+
     @PostMapping("/manager/addnew-employee")
     public ModelAndView createEmployee(
             @RequestParam("username") String username,
-            @RequestParam("password") String password) {
-
-        // Manager add a new employee
+            @RequestParam("password") String password) 
+    {
+        // Manager creates a new employee
         Employee employee = new Employee();
         employee.setusername(username);
         employee.setpassword(password);
 
-        // extra things can be added for exampl saving the employee to a database
+        // Optional: Save the employee to the database or perform other logic
         System.out.println("Manager created Employee: " + username);
-        //after done send the manager back to his dashboard or to the beginnig page
-        return new ModelAndView ("redirect:/");
-    }
-        
- }
 
+        // After creation, redirect the manager back to the home page ("/")
+        return new ModelAndView("redirect:/home");
+    }
+}

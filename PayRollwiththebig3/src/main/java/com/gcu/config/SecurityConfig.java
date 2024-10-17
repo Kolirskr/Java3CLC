@@ -18,19 +18,22 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Configuration
-public class SecurityConfig {
+public class SecurityConfig 
+{
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception 
+    {
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/", "/login", "/register", "/css/**", "/images/**", "/js/**").permitAll()
+                .requestMatchers("/", "/login", "/register", "/home", "/css/**", "/images/**", "/js/**").permitAll() // Allow access to home and static resources
                 .requestMatchers("/hoursheets").hasRole("MANAGER") // Only manager can access hoursheets
                 .anyRequest().authenticated() // All other requests require authentication
             )
             .formLogin(formLogin -> formLogin
                 .loginPage("/login") // Custom login page
-                .successHandler(roleBasedAuthenticationSuccessHandler()) // Use the custom success handler
+                .defaultSuccessUrl("/home", true) // Redirect to home after successful login
+                .successHandler(roleBasedAuthenticationSuccessHandler()) // Use custom success handler
                 .permitAll()
             )
             .logout(logout -> logout
@@ -44,24 +47,30 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationSuccessHandler roleBasedAuthenticationSuccessHandler() {
-        return new AuthenticationSuccessHandler() {
+    public AuthenticationSuccessHandler roleBasedAuthenticationSuccessHandler() 
+    {
+        return new AuthenticationSuccessHandler() 
+        {
             @Override
             public void onAuthenticationSuccess(
                     HttpServletRequest request,
                     HttpServletResponse response,
                     org.springframework.security.core.Authentication authentication)
-                    throws IOException, ServletException {
+                    throws IOException, ServletException 
+                    {
 
                 // Print roles for debugging
                 System.out.println("User roles: " + authentication.getAuthorities());
 
                 // Redirect based on roles
                 String role = authentication.getAuthorities().toString();
-                if (role.contains("ROLE_MANAGER")) {
+                if (role.contains("ROLE_MANAGER")) 
+                {
                     System.out.println("Redirecting to /hoursheets");
                     response.sendRedirect("/hoursheets");
-                } else {
+                } 
+                else 
+                {
                     System.out.println("Redirecting to /home");
                     response.sendRedirect("/home");
                 }
@@ -70,7 +79,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) 
+    {
         UserDetails manager = User.builder()
             .username("manager")
             .password(passwordEncoder.encode("manager123"))
@@ -87,7 +97,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() 
+    {
         return new BCryptPasswordEncoder();
     }
 }
