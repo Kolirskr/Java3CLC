@@ -1,104 +1,93 @@
 package com.gcu.config;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gcu.model.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder; // Allow plain text passwords
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Configuration
 public class SecurityConfig 
 {
+    private static final String JSON_FILE = "users.json"; // Path to JSON file
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception 
     {
         http
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/", "/login", "/register", "/home", "/css/**", "/images/**", "/js/**").permitAll() // Allow access to home and static resources
-                .requestMatchers("/hoursheets").hasRole("MANAGER") // Only manager can access hoursheets
-                .anyRequest().authenticated() // All other requests require authentication
-            )
-            .formLogin(formLogin -> formLogin
-                .loginPage("/login") // Custom login page
-                .defaultSuccessUrl("/home", true) // Redirect to home after successful login
-                .successHandler(roleBasedAuthenticationSuccessHandler()) // Use custom success handler
-                .permitAll()
-            )
+            .csrf(csrf -> csrf.disable()) 
+            .authorizeHttpRequests(authz -> authz
+                .requestMatchers("/home","/login.html", "/register", "/css/**").permitAll() // Allow public access
+                .requestMatchers("/hoursheet.html").hasRole("MANAGER") // Only Manager can access hoursheet
+                .anyRequest().authenticated()) // All other requests require authentication
+            .formLogin(form -> form
+                .loginPage("/login.html") // Custom login page
+                .loginProcessingUrl("/perform_login") // Login processing URL
+                .defaultSuccessUrl("/home", true) // Redirect to home on success
+                .failureUrl("/login.html?error=true")) // Redirect back to login on failure
             .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout")
-                .permitAll()
-            )
-            .httpBasic(); // Enable basic authentication for testing
+                .logoutUrl("/logout") // Logout URL
+                .logoutSuccessUrl("/login.html")); // Redirect to login on logout
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationSuccessHandler roleBasedAuthenticationSuccessHandler() 
+    public UserDetailsService userDetailsService() 
     {
-        return new AuthenticationSuccessHandler() 
-        {
-            @Override
-            public void onAuthenticationSuccess(
-                    HttpServletRequest request,
-                    HttpServletResponse response,
-                    org.springframework.security.core.Authentication authentication)
-                    throws IOException, ServletException 
-                    {
+        return username -> {
+            User user = findUserByUsername(username); // Load user from JSON
 
-                // Print roles for debugging
-                System.out.println("User roles: " + authentication.getAuthorities());
-
-                // Redirect based on roles
-                String role = authentication.getAuthorities().toString();
-                if (role.contains("ROLE_MANAGER")) 
-                {
-                    System.out.println("Redirecting to /hoursheets");
-                    response.sendRedirect("/hoursheets");
-                } 
-                else 
-                {
-                    System.out.println("Redirecting to /home");
-                    response.sendRedirect("/home");
-                }
+            if (user == null) 
+            {
+                throw new UsernameNotFoundException("User not found: " + username);
             }
+
+            // Convert the User object to a Spring Security UserDetails object
+            return org.springframework.security.core.userdetails.User
+                    .withUsername(user.getUsername())
+                    .password(user.getPassword()) // Use plain text password
+                    .roles(user.getRole().toUpperCase()) // Ensure role matches expected format
+                    .build();
         };
     }
 
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) 
+    // Helper method to load users from the JSON file
+    private User findUserByUsername(String username) 
     {
-        UserDetails manager = User.builder()
-            .username("manager")
-            .password(passwordEncoder.encode("manager123"))
-            .roles("MANAGER")
-            .build();
-
-        UserDetails employee = User.builder()
-            .username("employee")
-            .password(passwordEncoder.encode("employee123"))
-            .roles("EMPLOYEE")
-            .build();
-
-        return new InMemoryUserDetailsManager(manager, employee);
+        ObjectMapper mapper = new ObjectMapper();
+        try 
+        {
+            List<User> users = mapper.readValue(new File(JSON_FILE), new TypeReference<List<User>>() {});
+            for (User user : users) 
+            {
+                if (user.getUsername().equals(username)) 
+                {
+                    return user; // Return the matching user
+                }
+            }
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+        return null; // User not found
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() 
     {
-        return new BCryptPasswordEncoder();
+        // Use NoOpPasswordEncoder to allow plain text passwords
+        return NoOpPasswordEncoder.getInstance();
     }
 }
