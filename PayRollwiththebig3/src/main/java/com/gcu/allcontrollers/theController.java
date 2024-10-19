@@ -1,89 +1,154 @@
 package com.gcu.allcontrollers;
 
-// this class controll and answer the request of the web. hint: the returns (home,employee-signin, manager-signin, register)
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gcu.model.User;
+import com.gcu.model.Employee;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.gcu.model.Employee;
-import com.gcu.model.User;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
 public class theController 
 {
-     @GetMapping("/")
+    private final PasswordEncoder passwordEncoder;
+    private final String JSON_FILE = "users.json"; // Path to the JSON file
+
+    // Constructor injection of PasswordEncoder
+    public theController(PasswordEncoder passwordEncoder) 
+    {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    // Default route to redirect to the home page on startup
+    @GetMapping
+    public String defaultHome() 
+    {
+        return "redirect:/home"; // Redirect to the home page
+    }
+
+    // Home page handler
+    @GetMapping("/home")
     public String home() 
     {
-        return "home"; 
+        return "home"; // Load home.html template
     }
+
+    // Employee sign-in page handler
     @GetMapping("/employee-signin")
     public String employeeSignIn() 
     {
-        return "employee-signin"; 
+        return "employee-signin";
     }
-   @GetMapping("/manager-signin")
+
+    // Manager sign-in page handler
+    @GetMapping("/manager-signin")
     public String managerSignIn() 
     {
-        return "manager-signin"; 
+        return "manager-signin";
     }
-   @GetMapping("/register")
+
+    // Registration page handler
+    @GetMapping("/register")
     public String register() 
     {
-    return "register";
+        return "register"; // Load register.html template
     }
+
+    // Login page handler
+    @GetMapping("/login.html")
+    public String login() 
+    {
+        return "login"; // Load login.html template
+    }
+
+    // Hoursheet page handler
     @GetMapping("/hoursheet")
     public String hoursheet() 
     {
-    return "hoursheets";
+        return "hoursheet"; // Load hoursheet.html template
     }
-    @GetMapping("/login")
-    public String login() 
-    {
-        return "login"; 
-    }
-    //this one handle the user Registration 
-    // and if theres error retur to register page
+
+    // Handle user registration
     @PostMapping("/register")
-    public ModelAndView registerUser(@Validated User user, BindingResult bindingResult)
+    public ModelAndView registerUser(@Validated User user, BindingResult bindingResult) 
     {
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasErrors()) 
         {
-       return new ModelAndView ("register");
+            return new ModelAndView("register"); // Show the form again if there are errors
         }
-        //processing the user data
-     System.out.println("Registered User:" + user.getUsername());
-      //after that success register go to login page
-     return new ModelAndView("redirect:/login");
+
+        // Hash the password before saving
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Save the user to the JSON file
+        saveUserToJson(user);
+
+        System.out.println("Registered User: " + user.getUsername());
+
+        // Redirect to login page after successful registration
+        return new ModelAndView("redirect:/login.html");
     }
 
-
-    
-    @GetMapping("/manager/addnew-employee") // when manager signs in it can add new employee 
-    public String createEmployeeForm() {
-        return "addnew-employee"; 
+    // Display the form to create a new employee (for managers)
+    @GetMapping("/manager/addnew-employee")
+    public String createEmployeeForm() 
+    {
+        return "addnew-employee"; // Load addnew-employee.html template
     }
-//  the manager deals with addin new employee
+
+    // Process employee creation (for managers)
     @PostMapping("/manager/addnew-employee")
     public ModelAndView createEmployee(
             @RequestParam("username") String username,
-            @RequestParam("password") String password) {
-
-        // Manager add a new employee
+            @RequestParam("password") String password) 
+    {
+        // Create a new Employee object
         Employee employee = new Employee();
-        employee.setusername(username);
-        employee.setpassword(password);
+        employee.setUsername(username); // Fixed method name
+        employee.setPassword(password); // Fixed method name
 
-        // extra things can be added for exampl saving the employee to a database
+        // Optional: Save the employee to the JSON file or database
         System.out.println("Manager created Employee: " + username);
-        //after done send the manager back to his dashboard or to the beginnig page
-        return new ModelAndView ("redirect:/");
-    }
-        
- }
 
+        // Redirect back to the home page after creation
+        return new ModelAndView("redirect:/home");
+    }
+
+    // Helper method to save user data to the JSON file
+    private void saveUserToJson(User user) 
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        List<User> users = new ArrayList<>();
+
+        try 
+        {
+            // Check if the JSON file exists and load existing users
+            File file = new File(JSON_FILE);
+            if (file.exists()) 
+            {
+                users = mapper.readValue(file, new TypeReference<List<User>>() {});
+            }
+
+            // Add the new user to the list
+            users.add(user);
+
+            // Write the updated list back to the JSON file
+            mapper.writeValue(file, users);
+        } 
+        catch (IOException e) 
+        {
+            System.err.println("Error saving user to JSON: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}

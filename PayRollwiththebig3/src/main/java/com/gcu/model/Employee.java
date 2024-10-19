@@ -7,8 +7,10 @@ public class Employee {
     private String department;
     private double salary;
 
+    // Default constructor
     public Employee() {}
 
+    // Parameterized constructor
     public Employee(String id, String username, String password, String department, double salary) 
     {
         this.id = id;
@@ -16,25 +18,45 @@ public class Employee {
         this.password = password;
         this.department = department;
         this.salary = salary;
-        
     }
 
-public String getId() { return id; }
-public void setId(String id) { this.id = id; 
+    // Getter and setter for id
+    public String getId() { 
+        return id; 
+    }
+    public void setId(String id) { 
+        this.id = id; 
+    }
 
-}
-public String getusername() { return username; }
-public void setusername(String username) { this.username= username;
-}
+    // Getter and setter for username
+    public String getUsername() { 
+        return username; 
+    }
+    public void setUsername(String username) { 
+        this.username = username; 
+    }
 
-public String getpassword() { return password; }
-public void setpassword(String password) { this.password = password;
-}
+    // Getter and setter for password
+    public String getPassword() { 
+        return password; 
+    }
+    public void setPassword(String password) { 
+        this.password = password; 
+    }
 
-public String getdepartment() { return  department; }
-public void setdepartment(String department) { this.department = department;
-}
-public double getsalary() { return  salary; }
-public void setsalary(double salary) { this.salary = salary;
-}
+    // Getter and setter for department
+    public String getDepartment() { 
+        return department; 
+    }
+    public void setDepartment(String department) { 
+        this.department = department; 
+    }
+
+    // Getter and setter for salary
+    public double getSalary() { 
+        return salary; 
+    }
+    public void setSalary(double salary) { 
+        this.salary = salary; 
+    }
 }
