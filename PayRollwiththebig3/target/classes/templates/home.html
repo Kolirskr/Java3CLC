@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payroll System Home</title>
     <!-- Link to the external stylesheet -->
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <body>
     <!-- Header Section -->
     <header>
@@ -20,17 +21,27 @@
     </header>
     
     <!-- Navigation Section -->
-    <nav>
-        <ul>
+    <nav class="main-nav vertical-nav">
+        <ul class="nav-list">
             <li><a href="/register">Register</a></li>
             <li><a href="/login">Login</a></li>
-            <li><a href="/hoursheet">hoursheet</a></li>
+            <li><a href="/hoursheet">Hour Sheet</a></li>
         </ul>
     </nav>
+
+    <!-- Content Section -->
+    <div class="container">
+        <!-- Add your content here -->
+        <p>Welcome to the home page of the Payroll System. Use the navigation links to register, log in, or access the hour sheet.</p>
+    </div>
 
     <!-- Footer Section  -->
     <footer>
         <p>&copy; 2024 Payroll System. All rights reserved by the BigThree.</p>
     </footer>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <!-- Other scripts if needed -->
 </body>
 </html>

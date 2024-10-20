@@ -1,13 +1,11 @@
 package com.gcu.allcontrollers;
 
-import com.gcu.business.HourSheetBusinessInterface;
+import com.gcu.business.HourSheetBusinessService;
 import com.gcu.model.HourSheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,22 +14,29 @@ public class HourSheetController
 {
 
     @Autowired
-    private HourSheetBusinessInterface hourSheetService;
+    private HourSheetBusinessService hourSheetService;
 
-    // Display the hour sheets
-    @GetMapping("/hoursheets")
-    public String displayHourSheets(Model model) {
+    @GetMapping("/hoursheet")
+    public String getHourSheetPage(Model model) {
+        // Retrieve all hour sheets from the service
         List<HourSheet> hourSheets = hourSheetService.getAllHourSheets();
+
+        // Add the list to the model
         model.addAttribute("hourSheets", hourSheets);
-        return "hoursheet"; // Ensure this matches the template name exactly
+
+        // Return the name of the HTML template (without extension)
+        return "hoursheet";
     }
 
-    // Handle form submission to add a new hour sheet
     @PostMapping("/addHoursheet")
     public String addHourSheet(@RequestParam String employeeName, @RequestParam int hoursWorked) {
-        HourSheet newSheet = new HourSheet(employeeName, hoursWorked);
-        hourSheetService.addHourSheet(newSheet); // Add the new hour sheet
-        return "redirect:/hoursheets"; // Redirect to display the updated list
+        // Create a new HourSheet object
+        HourSheet newHourSheet = new HourSheet(employeeName, hoursWorked);
+
+        // Add the hour sheet using the service
+        hourSheetService.addHourSheet(newHourSheet);
+
+        // Redirect back to the hoursheet page to display updated data
+        return "redirect:/hoursheet";
     }
 }
-

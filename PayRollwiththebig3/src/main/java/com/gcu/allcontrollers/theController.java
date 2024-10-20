@@ -2,7 +2,6 @@ package com.gcu.allcontrollers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class theController 
@@ -36,12 +35,12 @@ public class theController
         return "register"; // Load register.html template
     }
 
-    // Display hoursheet at /hoursheet (for managers)
-    @GetMapping("/hoursheet")
-    public String hoursheet() 
-    {
-        return "hoursheet"; // Load hoursheet.html template
-    }
+    // Removed conflicting method
+    // @GetMapping("/hoursheet")
+    // public String hoursheet() 
+    // {
+    //     return "hoursheet"; // Load hoursheet.html template
+    // }
 
     // Display form to create a new employee (for managers)
     @GetMapping("/manager/addnew-employee")
@@ -49,9 +48,10 @@ public class theController
     {
         return "addnew-employee"; // Load addnew-employee.html template
     }
+
     @GetMapping("/login")
     public String login() 
     {
-        return "login"; // Load addnew-employee.html template
+        return "login"; // Load login.html template
     }
 }

@@ -34,7 +34,8 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
         return added;
     }
 
-    private void loadHourSheetsFromJson() {
+    private void loadHourSheetsFromJson() 
+    {
         ObjectMapper mapper = new ObjectMapper();
         File file = new File(JSON_FILE);
         if (file.exists()) {
@@ -43,10 +44,13 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
             } catch (IOException e) {
                 System.err.println("Error loading hour sheets: " + e.getMessage());
             }
+        } else {
+            System.out.println("No existing hour sheets found. Starting with an empty list.");
         }
     }
-
-    private void saveHourSheetsToJson() {
+    
+    private void saveHourSheetsToJson() 
+    {
         ObjectMapper mapper = new ObjectMapper();
         try {
             mapper.writeValue(new File(JSON_FILE), hourSheets);
@@ -54,4 +58,5 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
             System.err.println("Error saving hour sheets: " + e.getMessage());
         }
     }
+    
 }

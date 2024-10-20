@@ -5,6 +5,12 @@ public class HourSheet
     private String employeeName;
     private int hoursWorked;
 
+    // Default constructor
+    public HourSheet() 
+    {
+        
+    }
+
     public HourSheet(String employeeName, int hoursWorked) 
     {
         this.employeeName = employeeName;

@@ -3,20 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Hour Sheets</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-    <h1>Hour Sheets</h1>
-    <form action="/addHoursheet" method="post">
-        <input type="text" name="employeeName" placeholder="Employee Name" required />
-        <input type="number" name="hoursWorked" placeholder="Hours Worked" required />
-        <button type="submit">Add Hoursheet</button>
-    </form>
-    <hr>
-    <ul>
-        <th:block th:each="hourSheet : ${hourSheets}">
-            <li th:text="'Employee: ' + ${hourSheet.employeeName} + ', Hours Worked: ' + ${hourSheet.hoursWorked}"></li>
-        </th:block>
-    </ul>
+
+    <div class="container">
+        <!-- Navigation Section with specific class -->
+        <nav class="main-nav vertical-nav">
+            <ul class="nav-list">
+                <li><a href="/register">Register</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/user-home">Home</a></li>
+            </ul>
+        </nav>
+
+        <h1>Hour Sheets</h1>
+
+        <form action="/addHoursheet" method="post">
+            <input type="text" name="employeeName" placeholder="Employee Name" required />
+            <input type="number" name="hoursWorked" placeholder="Hours Worked" required />
+            <button type="submit">Add Hoursheet</button>
+        </form>
+
+        <hr>
+
+        <ul>
+            <th:block th:if="${hourSheets != null}">
+                <th:block th:each="hourSheet : ${hourSheets}">
+                    <li th:text="'Employee: ' + ${hourSheet.employeeName} + ', Hours Worked: ' + ${hourSheet.hoursWorked}"></li>
+                </th:block>
+            </th:block>
+            <th:block th:if="${hourSheets == null}">
+                <li>No hour sheets available.</li>
+            </th:block>
+        </ul>
+    </div>
 </body>
 </html>
-
