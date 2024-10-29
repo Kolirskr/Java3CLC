@@ -11,24 +11,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class HourSheetBusinessService implements HourSheetBusinessInterface {
+public class HourSheetBusinessService implements HourSheetBusinessInterface 
+{
 
     private static final String JSON_FILE = "hoursheets.json"; // Path to the JSON file
     private List<HourSheet> hourSheets = new ArrayList<>();
 
-    public HourSheetBusinessService() {
+    public HourSheetBusinessService() 
+    {
         loadHourSheetsFromJson(); // Load existing hour sheets on startup
     }
 
     @Override
-    public List<HourSheet> getAllHourSheets() {
+    public List<HourSheet> getAllHourSheets() 
+    {
         return hourSheets;
     }
 
     @Override
-    public boolean addHourSheet(HourSheet hourSheet) {
+    public boolean addHourSheet(HourSheet hourSheet) 
+    {
         boolean added = hourSheets.add(hourSheet);
-        if (added) {
+        if (added) 
+        {
             saveHourSheetsToJson(); // Save to JSON after adding
         }
         return added;
@@ -38,13 +43,19 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
     {
         ObjectMapper mapper = new ObjectMapper();
         File file = new File(JSON_FILE);
-        if (file.exists()) {
-            try {
+        if (file.exists()) 
+        {
+            try 
+            {
                 hourSheets = mapper.readValue(file, new TypeReference<List<HourSheet>>() {});
-            } catch (IOException e) {
+            } 
+            catch (IOException e) 
+            {
                 System.err.println("Error loading hour sheets: " + e.getMessage());
             }
-        } else {
+        } 
+        else 
+        {
             System.out.println("No existing hour sheets found. Starting with an empty list.");
         }
     }
@@ -52,9 +63,12 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
     private void saveHourSheetsToJson() 
     {
         ObjectMapper mapper = new ObjectMapper();
-        try {
+        try 
+        {
             mapper.writeValue(new File(JSON_FILE), hourSheets);
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             System.err.println("Error saving hour sheets: " + e.getMessage());
         }
     }

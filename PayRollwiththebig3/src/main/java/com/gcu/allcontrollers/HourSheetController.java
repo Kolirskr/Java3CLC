@@ -17,7 +17,8 @@ public class HourSheetController
     private HourSheetBusinessService hourSheetService;
 
     @GetMapping("/hoursheet")
-    public String getHourSheetPage(Model model) {
+    public String getHourSheetPage(Model model) 
+    {
         // Retrieve all hour sheets from the service
         List<HourSheet> hourSheets = hourSheetService.getAllHourSheets();
 
@@ -29,7 +30,8 @@ public class HourSheetController
     }
 
     @PostMapping("/addHoursheet")
-    public String addHourSheet(@RequestParam String employeeName, @RequestParam int hoursWorked) {
+    public String addHourSheet(@RequestParam String employeeName, @RequestParam int hoursWorked) 
+    {
         // Create a new HourSheet object
         HourSheet newHourSheet = new HourSheet(employeeName, hoursWorked);
 

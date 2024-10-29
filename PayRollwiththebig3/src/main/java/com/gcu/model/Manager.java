@@ -7,7 +7,8 @@ public class Manager {
 
     public Manager() {}
 
-    public Manager(String id, String username, String password) {
+    public Manager(String id, String username, String password) 
+    {
         this.id = id;
         this.username = username;
         this.password = password;
