@@ -19,18 +19,24 @@
 
         <h1>Hour Sheets</h1>
 
+        <!-- Form to add a new hour sheet -->
         <form action="/addHoursheet" method="post">
-            <input type="text" name="employeeName" placeholder="Employee Name" required />
+            <input type="number" name="userId" placeholder="User ID" required />
             <input type="number" name="hoursWorked" placeholder="Hours Worked" required />
+            <label>
+                Approved:
+                <input type="checkbox" name="isApproved" />
+            </label>
             <button type="submit">Add Hoursheet</button>
         </form>
 
         <hr>
 
+        <!-- Display the list of hour sheets -->
         <ul>
             <th:block th:if="${hourSheets != null}">
                 <th:block th:each="hourSheet : ${hourSheets}">
-                    <li th:text="'Employee: ' + ${hourSheet.employeeName} + ', Hours Worked: ' + ${hourSheet.hoursWorked}"></li>
+                    <li th:text="'User ID: ' + ${hourSheet.userId} + ', Hours Worked: ' + ${hourSheet.hoursWorked} + ', Date: ' + ${#dates.format(hourSheet.date, 'yyyy-MM-dd')} + ', Approved: ' + ${hourSheet.approved ? 'Yes' : 'No'}"></li>
                 </th:block>
             </th:block>
             <th:block th:if="${hourSheets == null}">
@@ -40,3 +46,4 @@
     </div>
 </body>
 </html>
+

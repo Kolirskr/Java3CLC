@@ -45,7 +45,8 @@ public class SecurityConfig
     @Bean
     public UserDetailsService userDetailsService() 
     {
-        return username -> {
+        return username -> 
+        {
             User user = findUserByUsername(username); // Load user from JSON
 
             if (user == null) 

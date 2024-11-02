@@ -1,13 +1,17 @@
 package com.gcu.allcontrollers;
 
-import com.gcu.business.HourSheetBusinessService;
-import com.gcu.model.HourSheet;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import com.gcu.business.HourSheetBusinessService;
+import com.gcu.model.HourSheet;
 
 @Controller
 public class HourSheetController 
@@ -30,10 +34,10 @@ public class HourSheetController
     }
 
     @PostMapping("/addHoursheet")
-    public String addHourSheet(@RequestParam String employeeName, @RequestParam int hoursWorked) 
+    public String addHourSheet(@RequestParam int userId, @RequestParam int hoursWorked, @RequestParam boolean isApproved) 
     {
-        // Create a new HourSheet object
-        HourSheet newHourSheet = new HourSheet(employeeName, hoursWorked);
+        // Create a new HourSheet object with current date
+        HourSheet newHourSheet = new HourSheet(0, userId, hoursWorked, new Date(), isApproved);
 
         // Add the hour sheet using the service
         hourSheetService.addHourSheet(newHourSheet);

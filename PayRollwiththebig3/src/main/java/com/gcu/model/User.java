@@ -1,48 +1,63 @@
 package com.gcu.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Entity  
+@Entity
+@Table(name = "users")  // Specify the table name explicitly
 public class User 
 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  
+    private Long id;
+
     @NotEmpty(message = "First name is required")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @NotEmpty(message = "Last name is required")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @Email(message = "Email should be valid")
+    @Column(nullable = false)
     private String email;
 
     @Pattern(regexp = "^\\d{10}$", message = "Phone number should be 10 digits")
+    @Column(nullable = false)
     private String phone;
 
     @NotEmpty(message = "Username is required")
+    @Column(nullable = false)
     private String username;
 
-    @NotEmpty(message = "Password is require")
-    @Size(min = 6, message = "the Password should be at least 6 characters")
+    @NotEmpty(message = "Password is required")
+    @Size(min = 6, message = "Password should be at least 6 characters")
+    @Column(nullable = false)
     private String password;
 
-    private String role;  // Role could be 'employee' or 'manager'
+    @NotEmpty(message = "Role is required")
+    @Column(nullable = false)
+    private String role;
 
     // Default constructor
-    public User() {}
-
-    //  constructor
-    public User(String firstName, String lastName, String email, String phone, String username, String password, String role) 
+    public User() 
     {
+    }
+
+    // Full constructor
+    public User(Long id, String firstName, String lastName, String email, String phone, String username, String password, String role) 
+    {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -52,7 +67,7 @@ public class User
         this.role = role;
     }
 
-    // these are getters and etters
+    // Getters and Setters
     public Long getId() 
     {
         return id;

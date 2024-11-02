@@ -1,1 +1,1 @@
-[{"employeeName":"Caleb","hoursWorked":5},{"employeeName":"Alex","hoursWorked":8},{"employeeName":"Zack","hoursWorked":1}]
+[{"timeSheetId":0,"userId":1,"hoursWorked":10,"date":1730510288724,"approved":true}]

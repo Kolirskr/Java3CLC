@@ -29,10 +29,15 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- Spring Boot Starters -->
+        <!-- Spring Boot Starters Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+         <!-- Spring Boot Starters -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
         <!-- Spring Boot Starter Thymeleaf -->
@@ -46,6 +51,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        <!--Spring Data JPA Dependency-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
 
         <!-- Thymeleaf Extras for Spring Security -->
         <dependency>
@@ -54,8 +65,6 @@
         </dependency>
 
         <!-- Jackson (Optional, if you need specific versions) -->
-        <!-- Note: These are usually included transitively via Spring Boot starters -->
-        <!-- Remove if not necessary -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -86,7 +95,12 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-
+        <!--MySQL Connecter Dependency-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
         <!-- Testing Dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

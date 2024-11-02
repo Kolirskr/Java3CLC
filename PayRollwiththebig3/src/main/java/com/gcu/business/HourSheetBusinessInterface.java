@@ -1,7 +1,8 @@
 package com.gcu.business;
 
-import com.gcu.model.HourSheet;
 import java.util.List;
+
+import com.gcu.model.HourSheet;
 
 public interface HourSheetBusinessInterface 
 {
