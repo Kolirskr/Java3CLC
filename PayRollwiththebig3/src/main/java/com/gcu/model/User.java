@@ -1,46 +1,63 @@
 package com.gcu.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Entity  
-public class User {
+@Entity
+@Table(name = "users")  // Specify the table name explicitly
+public class User 
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  
+    private Long id;
+
     @NotEmpty(message = "First name is required")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @NotEmpty(message = "Last name is required")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @Email(message = "Email should be valid")
+    @Column(nullable = false)
     private String email;
 
     @Pattern(regexp = "^\\d{10}$", message = "Phone number should be 10 digits")
+    @Column(nullable = false)
     private String phone;
 
     @NotEmpty(message = "Username is required")
+    @Column(nullable = false)
     private String username;
 
-    @NotEmpty(message = "Password is require")
-    @Size(min = 6, message = "the Password should be at least 6 characters")
+    @NotEmpty(message = "Password is required")
+    @Size(min = 6, message = "Password should be at least 6 characters")
+    @Column(nullable = false)
     private String password;
 
-    private String role;  // Role could be 'employee' or 'manager'
+    @NotEmpty(message = "Role is required")
+    @Column(nullable = false)
+    private String role;
 
     // Default constructor
-    public User() {}
+    public User() 
+    {
+    }
 
-    //  constructor
-    public User(String firstName, String lastName, String email, String phone, String username, String password, String role) {
+    // Full constructor
+    public User(Long id, String firstName, String lastName, String email, String phone, String username, String password, String role) 
+    {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -50,68 +67,84 @@ public class User {
         this.role = role;
     }
 
-    // these are getters and etters
-    public Long getId() {
+    // Getters and Setters
+    public Long getId() 
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id) 
+    {
         this.id = id;
     }
 
-    public String getFirstName() {
+    public String getFirstName() 
+    {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(String firstName) 
+    {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
+    public String getLastName() 
+    {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(String lastName) 
+    {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
+    public String getEmail() 
+    {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) 
+    {
         this.email = email;
     }
 
-    public String getPhone() {
+    public String getPhone() 
+    {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(String phone) 
+    {
         this.phone = phone;
     }
 
-    public String getUsername() {
+    public String getUsername() 
+    {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username) 
+    {
         this.username = username;
     }
 
-    public String getPassword() {
+    public String getPassword() 
+    {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password) 
+    {
         this.password = password;
     }
 
-    public String getRole() {
+    public String getRole() 
+    {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(String role) 
+    {
         this.role = role;
     }
 }

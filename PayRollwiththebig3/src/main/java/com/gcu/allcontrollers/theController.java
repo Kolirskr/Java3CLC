@@ -56,36 +56,45 @@ public class theController
         return "redirect:/login";
     }
 
-    // Helper method to save user to users.json
-    private void saveUserToJson(User user) 
+    // Helper method to save user to users.json with a unique ID
+private void saveUserToJson(User user) 
+{
+    ObjectMapper mapper = new ObjectMapper();
+    File file = new File("users.json");
+
+    try 
     {
-        ObjectMapper mapper = new ObjectMapper();
-        File file = new File("users.json");
-
-        try 
+        List<User> users;
+        if (file.exists()) 
         {
-            List<User> users;
-            if (file.exists()) 
-            {
-                // Read existing users
-                users = mapper.readValue(file, new TypeReference<List<User>>() {});
-            } 
-            else 
-            {
-                users = new ArrayList<>();
-            }
-
-            // Add the new user
-            users.add(user);
-
-            // Save back to the JSON file
-            mapper.writeValue(file, users);
+            // Read existing users
+            users = mapper.readValue(file, new TypeReference<List<User>>() {});
         } 
-        catch (IOException e) 
+        else 
         {
-            e.printStackTrace();
+            users = new ArrayList<>();
         }
+
+        // Determine the next ID by finding the highest existing ID
+        long nextId = users.stream()
+                           .mapToLong(u -> u.getId() == null ? 0 : u.getId())
+                           .max()
+                           .orElse(0) + 1;
+        
+        // Set the user's ID to the next available ID
+        user.setId(nextId);
+
+        // Add the new user to the list
+        users.add(user);
+
+        // Save back to the JSON file
+        mapper.writeValue(file, users);
+    } 
+    catch (IOException e) 
+    {
+        e.printStackTrace();
     }
+}
 
     // Login page at /login
     @GetMapping("/login")
