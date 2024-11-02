@@ -13,7 +13,6 @@ import java.util.List;
 @Service
 public class HourSheetBusinessService implements HourSheetBusinessInterface 
 {
-
     private static final String JSON_FILE = "hoursheets.json"; // Path to the JSON file
     private List<HourSheet> hourSheets = new ArrayList<>();
 
@@ -72,5 +71,4 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface
             System.err.println("Error saving hour sheets: " + e.getMessage());
         }
     }
-    
 }

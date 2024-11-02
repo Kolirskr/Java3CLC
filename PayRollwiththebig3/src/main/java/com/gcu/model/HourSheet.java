@@ -2,36 +2,28 @@ package com.gcu.model;
 
 import java.util.Date;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "time_sheets")  // Database table name
-public class HourSheet {
-
+@Table(name = "time_sheets")
+public class HourSheet 
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int timeSheetId;
-
-    @Column(name = "userId")
     private int userId;
-
     private int hoursWorked;
-
-    @Temporal(TemporalType.DATE)
     private Date date;
-
     private boolean isApproved;
     
     // Default constructor
     public HourSheet() 
     {
+        
     }
 
     // Constructor with parameters
