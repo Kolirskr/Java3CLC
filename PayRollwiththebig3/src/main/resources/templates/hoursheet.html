@@ -23,12 +23,17 @@
         <form action="/addHoursheet" method="post">
             <input type="number" name="userId" placeholder="User ID" required />
             <input type="number" name="hoursWorked" placeholder="Hours Worked" required />
+        
+            <!-- Hidden input to ensure a default value is sent if the checkbox is unchecked -->
+            <input type="hidden" name="isApproved" value="false" />
             <label>
                 Approved:
-                <input type="checkbox" name="isApproved" />
+                <input type="checkbox" name="isApproved" value="true" />
             </label>
+            
             <button type="submit">Add Hoursheet</button>
         </form>
+        
 
         <hr>
 
