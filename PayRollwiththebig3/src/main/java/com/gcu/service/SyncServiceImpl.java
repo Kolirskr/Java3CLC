@@ -1,21 +1,21 @@
 package com.gcu.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gcu.repository.UserRepository;
-import com.gcu.model.HourSheet;
-import com.gcu.model.User;
-import com.gcu.repository.HourSheetRepository;
-
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gcu.model.HourSheet;
+import com.gcu.model.User;
+import com.gcu.repository.HourSheetRepository;
+import com.gcu.repository.UserRepository;
 
 @Service
 public class SyncServiceImpl implements SyncService, ApplicationListener<ContextRefreshedEvent> 
