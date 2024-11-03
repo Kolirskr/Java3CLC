@@ -3,8 +3,10 @@ package com.gcu.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gcu.repository.UserRepository;
+import com.gcu.model.HourSheet;
+import com.gcu.model.User;
 import com.gcu.repository.HourSheetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -22,9 +23,8 @@ public class SyncServiceImpl implements SyncService, ApplicationListener<Context
     private final UserRepository userRepository;
     private final HourSheetRepository hourSheetRepository;
     private final ObjectMapper mapper = new ObjectMapper();
-    private final Path dataDir = Paths.get("./data");
+    private final Path dataDir = Path.of("./data");
 
-    @Autowired
     public SyncServiceImpl(UserRepository userRepository, HourSheetRepository hourSheetRepository) 
     {
         this.userRepository = userRepository;

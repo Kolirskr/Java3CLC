@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gcu.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,24 +12,33 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class theController 
 {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+    private final PasswordEncoder passwordEncoder;
+    private final String dataDirectory;
+
+    public theController(PasswordEncoder passwordEncoder, @Value("${app.data-directory}") String dataDirectory) 
+    {
+        this.passwordEncoder = passwordEncoder;
+        this.dataDirectory = dataDirectory;
+    }
 
     // Redirect to /user-home when accessing the root "/"
     @GetMapping("/")
     public String defaultHome() 
     {
-        return "redirect:/user-home";
+        return "redirect:/home";
     }
 
     // Display the user home page at /user-home
-    @GetMapping("/user-home")
+    @GetMapping("/home")
     public String userHome() 
     {
         return "home"; // Load home.html template
@@ -44,7 +54,7 @@ public class theController
 
     // Handle registration form submission (POST request)
     @PostMapping("/register")
-    public String handleRegistration(@ModelAttribute("user") User user) 
+    public String handleRegistration(@ModelAttribute User user) 
     {
         // Encode the password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -57,44 +67,52 @@ public class theController
     }
 
     // Helper method to save user to users.json with a unique ID
-private void saveUserToJson(User user) 
-{
-    ObjectMapper mapper = new ObjectMapper();
-    File file = new File("users.json");
+    private void saveUserToJson(User user) {
+        ObjectMapper mapper = new ObjectMapper();
+        // Construct the path to users.json in the data directory
+        Path userFilePath = Paths.get(dataDirectory, "users.json");
+        File file = userFilePath.toFile();
 
-    try 
-    {
-        List<User> users;
-        if (file.exists()) 
+        try 
         {
-            // Read existing users
-            users = mapper.readValue(file, new TypeReference<List<User>>() {});
+            // Ensure the data directory exists
+            File dataDir = file.getParentFile();
+            if (!dataDir.exists()) 
+            {
+                dataDir.mkdirs();
+            }
+
+            List<User> users;
+            if (file.exists()) 
+            {
+                // Read existing users
+                users = mapper.readValue(file, new TypeReference<List<User>>() {});
+            } 
+            else 
+            {
+                users = new ArrayList<>();
+            }
+
+            // Determine the next ID by finding the highest existing ID
+            Integer nextId = (int) (users.stream()
+                               .mapToLong(u -> u.getId() == null ? 0 : u.getId())
+                               .max()
+                               .orElse(0) + 1);
+
+            // Set the user's ID to the next available ID
+            user.setId(nextId);
+
+            // Add the new user to the list
+            users.add(user);
+
+            // Save back to the JSON file
+            mapper.writeValue(file, users);
         } 
-        else 
+        catch (IOException e) 
         {
-            users = new ArrayList<>();
+            e.printStackTrace();
         }
-
-        // Determine the next ID by finding the highest existing ID
-        long nextId = users.stream()
-                           .mapToLong(u -> u.getId() == null ? 0 : u.getId())
-                           .max()
-                           .orElse(0) + 1;
-        
-        // Set the user's ID to the next available ID
-        user.setId(nextId);
-
-        // Add the new user to the list
-        users.add(user);
-
-        // Save back to the JSON file
-        mapper.writeValue(file, users);
-    } 
-    catch (IOException e) 
-    {
-        e.printStackTrace();
     }
-}
 
     // Login page at /login
     @GetMapping("/login")

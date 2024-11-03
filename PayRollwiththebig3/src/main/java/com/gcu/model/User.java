@@ -18,7 +18,7 @@ public class User
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotEmpty(message = "First name is required")
     @Column(name = "first_name", nullable = false)
@@ -52,11 +52,11 @@ public class User
     // Default constructor
     public User() 
     {
+
     }
 
     // Full constructor
-    public User(Long id, String firstName, String lastName, String email, String phone, String username, String password, String role) 
-    {
+    public User(Integer id, String firstName, String lastName, String email, String phone, String username, String password, String role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -68,12 +68,12 @@ public class User
     }
 
     // Getters and Setters
-    public Long getId() 
+    public Integer getId() 
     {
         return id;
     }
 
-    public void setId(Long id) 
+    public void setId(Integer id) 
     {
         this.id = id;
     }
