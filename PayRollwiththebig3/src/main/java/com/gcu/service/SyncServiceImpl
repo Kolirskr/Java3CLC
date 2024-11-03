@@ -24,7 +24,7 @@ public class SyncServiceImpl implements SyncService, ApplicationListener<Context
     private final ObjectMapper mapper = new ObjectMapper();
     private final Path dataDir = Paths.get("./data");
 
-    @Autowired
+    @Autowired // not neccassary autowired
     public SyncServiceImpl(UserRepository userRepository, HourSheetRepository hourSheetRepository) 
     {
         this.userRepository = userRepository;
