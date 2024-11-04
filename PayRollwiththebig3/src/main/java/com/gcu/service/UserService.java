@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 @Service
 public class UserService 
 {
-
     private static final Logger logger = Logger.getLogger(UserService.class.getName());
 
     @Value("${app.data-directory}")
@@ -26,36 +25,44 @@ public class UserService
     private static final String JSON_FILE_NAME = "users.json";
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public Optional<User> findUserByUsername(String username) {
-        try {
+    public Optional<User> findUserByUsername(String username) 
+    {
+        try 
+        {
             Path userFilePath = Paths.get(dataDirectory, JSON_FILE_NAME);
             File file = userFilePath.toFile();
-    
+
             if (!file.exists()) 
             {
                 logger.warning("User data file not found at: " + file.getAbsolutePath());
                 return Optional.empty();
             }
-    
+
+            // Load users
             List<User> users = mapper.readValue(file, new TypeReference<List<User>>() {});
             logger.info("Loaded " + users.size() + " users from JSON.");
-    
+
+            // Find user by username
             Optional<User> user = users.stream()
                                        .filter(u -> u.getUsername().equalsIgnoreCase(username)) // Case-insensitive comparison
                                        .findFirst();
-    
-            if (user.isPresent()) {
+
+            if (user.isPresent()) 
+            {
                 logger.info("User found: " + username);
-            } else {
+            } 
+            else 
+            {
                 logger.warning("User not found: " + username);
             }
             return user;
-    
-        } catch (IOException e) {
+
+        } 
+        catch (IOException e) 
+        {
             logger.severe("Error reading user data file: " + e.getMessage());
             e.printStackTrace();
             return Optional.empty();
         }
     }
 }
-    

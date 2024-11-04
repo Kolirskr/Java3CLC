@@ -18,12 +18,14 @@ public class SecurityConfig {
 
     private final UserService userService;
 
-    public SecurityConfig(UserService userService) {
+    public SecurityConfig(UserService userService) 
+    {
         this.userService = userService;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception 
+    {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
@@ -43,7 +45,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService() 
+    {
         return username -> userService.findUserByUsername(username)
             .map(user -> org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())

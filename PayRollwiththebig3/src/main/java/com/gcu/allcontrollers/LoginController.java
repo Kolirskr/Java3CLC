@@ -23,7 +23,8 @@ public class LoginController
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
 
-    public LoginController(AuthenticationManager authenticationManager, UserService userService) {
+    public LoginController(AuthenticationManager authenticationManager, UserService userService) 
+    {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
     }
