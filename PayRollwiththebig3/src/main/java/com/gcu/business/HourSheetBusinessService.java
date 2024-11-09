@@ -1,17 +1,21 @@
 package com.gcu.business;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gcu.model.HourSheet;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gcu.model.HourSheet;
 
 @Service
 public class HourSheetBusinessService implements HourSheetBusinessInterface {
@@ -38,6 +42,84 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
             saveHourSheetsToJson(); // Save to JSON after adding
         }
         return added;
+    }
+
+    @Override
+    public void removeHourSheet(Integer timeSheetId)
+    {
+           String fileName = "hoursheets.json";
+        
+        try {
+            // Read the JSON file content as a string
+            String content = new String(Files.readAllBytes(Paths.get(fileName)));
+
+            // Parse the string content as a JSON array
+            JSONArray jsonArray = new JSONArray(content);
+
+            // Create a new JSONArray to store entries without the specified userId
+            JSONArray updatedArray = new JSONArray();
+
+            // Iterate through the existing array and keep entries that don't match the userId
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject entry = jsonArray.getJSONObject(i);
+                if (entry.getInt("userId") != timeSheetId) {
+                    updatedArray.put(entry);
+                }
+            }
+
+            // Write the updated JSON array back to the file
+            Files.write(Paths.get(fileName), updatedArray.toString(4).getBytes());
+            
+            System.out.println("All timesheets for time sheet ID " + timeSheetId + " have been deleted successfully.");
+            
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading or writing the file: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void editTimeSheet(Integer timeSheetId, Integer newHours)
+    {
+        String fileName = "hoursheets.json";
+
+        try {
+            // Read the JSON file content as a string
+            String content = new String(Files.readAllBytes(Paths.get(fileName)));
+
+            // Parse the string content as a JSON array
+            JSONArray jsonArray = new JSONArray(content);
+
+            // Flag to track if the timesheet was found
+            boolean found = false;
+
+            // Iterate through the JSON array to find the timesheet by timeSheetId
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject entry = jsonArray.getJSONObject(i);
+
+                // Check if the current entry's timeSheetId matches
+                if (entry.getInt("timeSheetId") == timeSheetId) {
+                    // Update the hoursWorked field
+                    entry.put("hoursWorked", newHours);
+                    found = true;
+                    break;
+                }
+            }
+
+            // If the timesheet was found, write the updated JSON array back to the file
+            if (found) {
+                Files.write(Paths.get(fileName), jsonArray.toString(4).getBytes());
+                System.out.println("Timesheet with ID " + timeSheetId + " has been updated to " + newHours + " hours.");
+            } else {
+                System.out.println("Timesheet with ID " + timeSheetId + " was not found.");
+            }
+
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading or writing the file: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
     }
 
     private void loadHourSheetsFromJson() {
