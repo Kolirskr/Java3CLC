@@ -48,4 +48,27 @@ public class HourSheetController
         // Redirect back to the hoursheet page to display updated data
         return "redirect:/hoursheet";
     }
+
+    // Add method to delete a timesheet by userId
+    @PostMapping("/deleteHoursheet")
+    public String deleteHourSheet(@RequestParam int userId) {
+        // Call the delete method from the business service
+        hourSheetService.removeHourSheet(userId);
+
+        // Redirect back to the hoursheet page to display updated data
+        return "redirect:/hoursheet";
+    }
+
+    // Add method to edit hours worked for a specific timesheet
+    @PostMapping("/editHoursheet")
+    public String editHourSheet(
+        @RequestParam int timeSheetId,
+        @RequestParam int newHours
+    ) {
+        // Call the edit method from the business service
+        hourSheetService.editTimeSheet(timeSheetId, newHours);
+
+        // Redirect back to the hoursheet page to display updated data
+        return "redirect:/hoursheet";
+    }
 }

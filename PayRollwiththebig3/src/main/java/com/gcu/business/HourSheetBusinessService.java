@@ -32,6 +32,7 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
 
     @Override
     public List<HourSheet> getAllHourSheets() {
+        loadHourSheetsFromJson(); // Ensure we reload the latest data each time
         return hourSheets;
     }
 
@@ -47,7 +48,7 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
     @Override
     public void removeHourSheet(Integer timeSheetId)
     {
-           String fileName = "hoursheets.json";
+           String fileName = "data/hoursheets.json";
         
         try {
             // Read the JSON file content as a string
@@ -82,7 +83,7 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
     @Override
     public void editTimeSheet(Integer timeSheetId, Integer newHours)
     {
-        String fileName = "hoursheets.json";
+        String fileName = "data/hoursheets.json";
 
         try {
             // Read the JSON file content as a string
@@ -124,15 +125,10 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
 
     private void loadHourSheetsFromJson() {
         ObjectMapper mapper = new ObjectMapper();
-        // Ensure dataDirectory is not null
-        if (dataDirectory == null) {
-            System.err.println("Data directory is not set.");
-            return;
-        }
-        // Construct the path to hoursheets.json in the data directory
         Path hourSheetFilePath = Paths.get(dataDirectory, "hoursheets.json");
         File file = hourSheetFilePath.toFile();
 
+        // Ensure dataDirectory is not null
         if (file.exists()) {
             try {
                 hourSheets = mapper.readValue(file, new TypeReference<List<HourSheet>>() {});

@@ -41,7 +41,22 @@
         <ul>
             <th:block th:if="${hourSheets != null}">
                 <th:block th:each="hourSheet : ${hourSheets}">
-                    <li th:text="'User ID: ' + ${hourSheet.userId} + ', Hours Worked: ' + ${hourSheet.hoursWorked} + ', Date: ' + ${#dates.format(hourSheet.date, 'yyyy-MM-dd')} + ', Approved: ' + ${hourSheet.approved ? 'Yes' : 'No'}"></li>
+                    <li>
+                        <span th:text="'User ID: ' + ${hourSheet.userId} + ', Hours Worked: ' + ${hourSheet.hoursWorked} + ', Date: ' + ${#dates.format(hourSheet.date, 'yyyy-MM-dd')} + ', Approved: ' + ${hourSheet.approved ? 'Yes' : 'No'}"></span>
+                        
+                        <!-- Edit Hoursheet Form -->
+                        <form action="/editHoursheet" method="post" style="display:inline;">
+                            <input type="hidden" name="timeSheetId" th:value="${hourSheet.timeSheetId}" />
+                            <input type="number" name="newHours" min = "1" placeholder="New Hours" required />
+                            <button type="submit">Edit</button>
+                        </form>
+
+                        <!-- Delete Hoursheet Form -->
+                        <form action="/deleteHoursheet" method="post" style="display:inline;">
+                            <input type="hidden" name="userId" th:value="${hourSheet.userId}" />
+                            <button type="submit">Delete</button>
+                        </form>
+                    </li>
                 </th:block>
             </th:block>
             <th:block th:if="${hourSheets == null}">
