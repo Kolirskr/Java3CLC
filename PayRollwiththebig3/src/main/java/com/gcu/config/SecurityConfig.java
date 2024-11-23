@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -18,19 +18,17 @@ public class SecurityConfig {
 
     private final UserService userService;
 
-    public SecurityConfig(UserService userService) 
-    {
+    public SecurityConfig(UserService userService) {
         this.userService = userService;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception 
-    {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/user", "/login.html", "/register", "/css/**").permitAll()
-                .requestMatchers("/hoursheet").hasRole("MANAGER")  // Secure hoursheet page
+                .requestMatchers("/hoursheet").hasRole("MANAGER") // Secure hoursheet page
                 .anyRequest().authenticated())
             .formLogin(form -> form
                 .loginPage("/login.html")
@@ -45,26 +43,23 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() 
-    {
+    public UserDetailsService userDetailsService() {
         return username -> userService.findUserByUsername(username)
             .map(user -> org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
-                .password(user.getPassword())
+                .password(user.getPassword()) // Encoded password
                 .roles(user.getRole().toUpperCase())
                 .build())
             .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() 
-    {
-        return NoOpPasswordEncoder.getInstance();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) throws Exception 
-    {
+    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         return authenticationManagerBuilder.build();
