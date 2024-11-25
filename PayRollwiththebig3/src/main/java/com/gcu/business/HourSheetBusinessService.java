@@ -10,15 +10,20 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gcu.model.HourSheet;
+import com.gcu.repository.HourSheetRepository;
 
 @Service
 public class HourSheetBusinessService implements HourSheetBusinessInterface {
+
+    @Autowired
+    private HourSheetRepository hourSheetRepository;
 
     private final String dataDirectory; // Data directory path
 
@@ -38,47 +43,45 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
 
     @Override
     public boolean addHourSheet(HourSheet hourSheet) {
-        boolean added = hourSheets.add(hourSheet);
-        if (added) {
-            saveHourSheetsToJson(); // Save to JSON after adding
-        }
-        return added;
+    // Save the HourSheet to the database first
+    HourSheet savedHourSheet = hourSheetRepository.save(hourSheet); // This updates the hourSheet with the generated ID
+
+    // Add the saved HourSheet (with timeSheetId) to the in-memory list
+    boolean added = hourSheets.add(savedHourSheet);
+
+    if (added) {
+        saveHourSheetsToJson(); // Save the updated list to JSON
     }
+
+    return added;
+    }
+    
 
     @Override
     public void removeHourSheet(Integer timeSheetId)
     {
-           String fileName = "data/hoursheets.json";
-        
-        try {
-            // Read the JSON file content as a string
-            String content = new String(Files.readAllBytes(Paths.get(fileName)));
+         // Delete from the database
+         hourSheetRepository.deleteById(timeSheetId);
 
-            // Parse the string content as a JSON array
-            JSONArray jsonArray = new JSONArray(content);
-
-            // Create a new JSONArray to store entries without the specified userId
-            JSONArray updatedArray = new JSONArray();
-
-            // Iterate through the existing array and keep entries that don't match the userId
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject entry = jsonArray.getJSONObject(i);
-                if (entry.getInt("userId") != timeSheetId) {
-                    updatedArray.put(entry);
-                }
-            }
-
-            // Write the updated JSON array back to the file
-            Files.write(Paths.get(fileName), updatedArray.toString(4).getBytes());
-            
-            System.out.println("All timesheets for time sheet ID " + timeSheetId + " have been deleted successfully.");
-            
-        } catch (IOException e) {
-            System.out.println("An error occurred while reading or writing the file: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
-        }
-    }
+         // Update the JSON file
+         String fileName = "data/hoursheets.json";
+         try {
+             String content = new String(Files.readAllBytes(Paths.get(fileName)));
+             JSONArray jsonArray = new JSONArray(content);
+             JSONArray updatedArray = new JSONArray();
+ 
+             for (int i = 0; i < jsonArray.length(); i++) {
+                 JSONObject entry = jsonArray.getJSONObject(i);
+                 if (entry.getInt("timeSheetId") != timeSheetId) {
+                     updatedArray.put(entry);
+                 }
+             }
+ 
+             Files.write(Paths.get(fileName), updatedArray.toString(4).getBytes());
+         } catch (IOException e) {
+             throw new RuntimeException("Error updating JSON file: " + e.getMessage(), e);
+         }
+     }
 
     @Override
     public void editTimeSheet(Integer timeSheetId, Integer newHours)
@@ -142,22 +145,25 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
 
     private void saveHourSheetsToJson() {
         ObjectMapper mapper = new ObjectMapper();
+
         // Ensure dataDirectory is not null
         if (dataDirectory == null) {
             System.err.println("Data directory is not set.");
             return;
         }
+    
         // Construct the path to hoursheets.json in the data directory
         Path hourSheetFilePath = Paths.get(dataDirectory, "hoursheets.json");
         File file = hourSheetFilePath.toFile();
-
+    
         try {
             // Ensure the data directory exists
             File dataDir = file.getParentFile();
             if (!dataDir.exists()) {
                 dataDir.mkdirs();
             }
-
+    
+            // Write the current state of hourSheets to the JSON file
             mapper.writeValue(file, hourSheets);
         } catch (IOException e) {
             System.err.println("Error saving hour sheets: " + e.getMessage());

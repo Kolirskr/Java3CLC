@@ -39,8 +39,9 @@ public class HourSheetController
     @RequestParam int hoursWorked,
     @RequestParam boolean isApproved) 
     {
+
         // Create a new HourSheet object with current date
-        HourSheet newHourSheet = new HourSheet(0, userId, hoursWorked, new Date(), isApproved);
+        HourSheet newHourSheet = new HourSheet(userId, hoursWorked, new Date(), isApproved);
 
         // Add the hour sheet using the service
         hourSheetService.addHourSheet(newHourSheet);
@@ -51,9 +52,9 @@ public class HourSheetController
 
     // Add method to delete a timesheet by userId
     @PostMapping("/deleteHoursheet")
-    public String deleteHourSheet(@RequestParam int userId) {
+    public String deleteHourSheet(@RequestParam int timeSheetId) {
         // Call the delete method from the business service
-        hourSheetService.removeHourSheet(userId);
+        hourSheetService.removeHourSheet(timeSheetId);
 
         // Redirect back to the hoursheet page to display updated data
         return "redirect:/hoursheet";

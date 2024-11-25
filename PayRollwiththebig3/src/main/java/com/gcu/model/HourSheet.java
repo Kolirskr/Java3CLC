@@ -46,14 +46,22 @@ public class HourSheet {
         this.isApproved = isApproved;
     }
 
+    public HourSheet(int userId, int hoursWorked, Date date, boolean isApproved)
+    {
+        this.userId = userId;
+        this.hoursWorked = hoursWorked;
+        this.date = date;
+        this.isApproved = isApproved;
+    }
+
     // Getters and Setters
     public int getTimeSheetId() {
         return timeSheetId;
     }
 
-    public void setTimeSheetId(int timeSheetId) {
-        this.timeSheetId = timeSheetId;
-    }
+    //public void setTimeSheetId(int timeSheetId) {
+    //    this.timeSheetId = timeSheetId;
+    //}
 
     public Integer getUserId() {
         return userId;
