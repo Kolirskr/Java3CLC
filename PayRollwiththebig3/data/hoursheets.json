@@ -1,16 +1,7 @@
-[
-    {
-        "date": "2024-11-25",
-        "approved": false,
-        "timeSheetId": 49,
-        "userId": 1,
-        "hoursWorked": 5
-    },
-    {
-        "date": "2024-11-25",
-        "approved": false,
-        "timeSheetId": 50,
-        "userId": 1,
-        "hoursWorked": 6
-    }
-]
+[{
+    "date": "2024-11-25",
+    "approved": false,
+    "timeSheetId": 56,
+    "userId": 2,
+    "hoursWorked": 5
+}]
