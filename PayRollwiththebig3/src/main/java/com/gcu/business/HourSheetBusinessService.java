@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -40,6 +41,19 @@ public class HourSheetBusinessService implements HourSheetBusinessInterface {
         loadHourSheetsFromJson(); // Ensure we reload the latest data each time
         return hourSheets;
     }
+
+    // alternative get all for the rest API----------
+    public List<HourSheet> getAllHourSheetsAPI()
+    {
+        return hourSheetRepository.findAll();
+    }
+
+    public Optional<HourSheet> getHourSheetByIdAPI(int id)
+    {
+        return hourSheetRepository.findById(id);
+    }
+
+    // -----------------------------------------------
 
     @Override
     public boolean addHourSheet(HourSheet hourSheet) {
