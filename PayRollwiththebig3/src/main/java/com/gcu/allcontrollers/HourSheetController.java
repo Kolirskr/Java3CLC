@@ -54,7 +54,8 @@ public class HourSheetController
 
     // Add method to delete a timesheet by userId
     @PostMapping("/deleteHoursheet")
-    public String deleteHourSheet(@RequestParam int timeSheetId) {
+    public String deleteHourSheet(@RequestParam int timeSheetId) 
+    {
         // Call the delete method from the business service
         hourSheetService.removeHourSheet(timeSheetId);
 
@@ -67,7 +68,8 @@ public class HourSheetController
     public String editHourSheet(
         @RequestParam int timeSheetId,
         @RequestParam int newHours
-    ) {
+    ) 
+    {
         // Call the edit method from the business service
         hourSheetService.editTimeSheet(timeSheetId, newHours);
 

@@ -56,7 +56,8 @@ public class User
     }
 
     // Full constructor
-    public User(Integer id, String firstName, String lastName, String email, String phone, String username, String password, String role) {
+    public User(Integer id, String firstName, String lastName, String email, String phone, String username, String password, String role) 
+    {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

@@ -34,11 +34,14 @@ public class HourSheet {
     private boolean isApproved;
 
     // Default constructor
-    public HourSheet() {
+    public HourSheet() 
+    {
+
     }
 
     // Constructor with parameters
-    public HourSheet(int timeSheetId, int userId, int hoursWorked, Date date, boolean isApproved) {
+    public HourSheet(int timeSheetId, int userId, int hoursWorked, Date date, boolean isApproved) 
+    {
         this.timeSheetId = timeSheetId;
         this.userId = userId;
         this.hoursWorked = hoursWorked;
@@ -55,7 +58,8 @@ public class HourSheet {
     }
 
     // Getters and Setters
-    public int getTimeSheetId() {
+    public int getTimeSheetId() 
+    {
         return timeSheetId;
     }
 
@@ -63,35 +67,43 @@ public class HourSheet {
     //    this.timeSheetId = timeSheetId;
     //}
 
-    public Integer getUserId() {
+    public Integer getUserId() 
+    {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Integer userId) 
+    {
         this.userId = userId;
     }
 
-    public int getHoursWorked() {
+    public int getHoursWorked() 
+    {
         return hoursWorked;
     }
 
-    public void setHoursWorked(int hoursWorked) {
+    public void setHoursWorked(int hoursWorked) 
+    {
         this.hoursWorked = hoursWorked;
     }
 
-    public Date getDate() {
+    public Date getDate() 
+    {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Date date) 
+    {
         this.date = date;
     }
 
-    public boolean isApproved() {
+    public boolean isApproved() 
+    {
         return this.isApproved;
     }
 
-    public void setApproved(boolean isApproved) {
+    public void setApproved(boolean isApproved) 
+    {
         this.isApproved = isApproved;
     }
 }
