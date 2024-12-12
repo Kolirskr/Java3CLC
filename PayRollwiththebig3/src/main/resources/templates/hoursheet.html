@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Hour Sheets</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+
 </head>
 <body>
 
@@ -49,13 +50,13 @@
                         <form action="/editHoursheet" method="post" style="display:inline;">
                             <input type="hidden" name="timeSheetId" th:value="${hourSheet.timeSheetId}" />
                             <input type="number" name="newHours" min = "1" placeholder="New Hours" required />
-                            <button type="submit">Edit</button>
+                            <button type="submit" style="width: 80px; height: 35px; font-size: 15px;">Edit</button>
                         </form>
 
                         <!-- Delete Hoursheet Form -->
                         <form action="/deleteHoursheet" method="post" style="display:inline;">
                             <input type="hidden" name="timeSheetId" th:value="${hourSheet.timeSheetId}" />
-                            <button type="submit">Delete</button>
+                            <button type="submit" style="width: 80px; height: 35px; font-size: 15px;">Delete</button>
                         </form>
                     </li>
                 </th:block>
