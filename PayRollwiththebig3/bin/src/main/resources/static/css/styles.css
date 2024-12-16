@@ -1,0 +1,203 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Container Styling */
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 1000px; /* Increased max-width for more space */
+    margin: 40px auto;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Clear floats */
+}
+
+/* Vertical Navigation Bar Styling */
+.vertical-nav {
+    width: 200px; /* Adjust the width as needed */
+    float: left;
+    margin-right: 20px; /* Space between the nav and the content */
+}
+
+.vertical-nav .nav-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vertical-nav .nav-list li {
+    margin-bottom: 10px;
+}
+
+.vertical-nav .nav-list li a {
+    display: block;
+    background-color: #333;
+    color: #f2f2f2;
+    padding: 12px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.vertical-nav .nav-list li a:hover {
+    background-color: #ddd;
+    color: #333;
+}
+
+/* Page Heading and Content Adjustments */
+.container h1,
+.container form,
+.container hr,
+.container ul {
+    margin-left: 220px; /* Width of the nav plus margin */
+}
+
+/* Form Styling */
+.container form {
+    margin-bottom: 20px;
+}
+
+.container input[type="text"],
+.container input[type="number"] {
+    padding: 10px;
+    margin: 5px;
+    width: calc(50% - 30px);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.container button {
+    width: calc(100% - 30px);
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.container button:hover {
+    background-color: #45a049;
+}
+
+/* List Styling */
+.container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.container ul li {
+    background-color: #f9f9f9;
+    margin-bottom: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Link Styling Within Content */
+.container a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.container a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 800px) {
+    .vertical-nav {
+        width: 100%;
+        float: none;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .vertical-nav .nav-list li {
+        margin-bottom: 5px;
+    }
+
+    .container h1,
+    .container form,
+    .container hr,
+    .container ul {
+        margin-left: 0;
+    }
+
+    .container input[type="text"],
+    .container input[type="number"],
+    .container button {
+        width: calc(100% - 30px);
+    }
+}
+
+/* Auth Container Styling for Login and Register Pages */
+.auth-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    margin: 100px auto; /* Centers the container */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Page Heading for Auth Pages */
+.auth-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Label and Input Field Styling for Auth Pages */
+.auth-container label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.auth-container input,
+.auth-container select,
+.auth-container button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Button Styling for Auth Pages */
+.auth-container button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.auth-container button:hover {
+    background-color: #45a049;
+}
+
+/* Link Styling for Auth Pages */
+.auth-container a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.auth-container a:hover {
+    text-decoration: underline;
+}
+
+/* Align Register Link */
+.auth-container .register-link {
+    text-align: center;
+}
+
+/* Error Message Styling */
+.auth-container .error-message {
+    color: red;
+    text-align: center;
+}

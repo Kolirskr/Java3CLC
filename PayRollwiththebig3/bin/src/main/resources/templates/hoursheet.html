@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hour Sheets</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Navigation Section -->
+        <nav class="main-nav vertical-nav">
+            <ul class="nav-list">
+                <li><a href="/register">Register</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+
+        <h1>Hour Sheets</h1>
+
+        <!-- Form to add a new hour sheet -->
+        <form action="/addHoursheet" method="post">
+            <input type="number" name="userId" placeholder="User ID" required />
+            <input type="number" name="hoursWorked" placeholder="Hours Worked" required />
+        
+            <!-- Hidden input to ensure a default value is sent if the checkbox is unchecked -->
+            <input type="hidden" name="isApproved" value="false" />
+            <label>
+                Approved:
+                <input type="checkbox" name="isApproved" value="true" />
+            </label>
+            
+            <button type="submit">Add Hoursheet</button>
+        </form>
+        
+
+        <hr>
+
+        <!-- Display the list of hour sheets -->
+        <ul>
+            <th:block th:if="${hourSheets != null}">
+                <th:block th:each="hourSheet : ${hourSheets}">
+                    <li>
+                        <span th:text="'User ID: ' + ${hourSheet.userId} + ', Hours Worked: ' + ${hourSheet.hoursWorked} + ', Date: ' + ${#dates.format(hourSheet.date, 'yyyy-MM-dd')} + ', Approved: ' + ${hourSheet.approved ? 'Yes' : 'No'}"></span>
+                        
+                        <!-- Edit Hoursheet Form -->
+                        <form action="/editHoursheet" method="post" style="display:inline;">
+                            <input type="hidden" name="timeSheetId" th:value="${hourSheet.timeSheetId}" />
+                            <input type="number" name="newHours" min = "1" placeholder="New Hours" required />
+                            <button type="submit">Edit</button>
+                        </form>
+
+                        <!-- Delete Hoursheet Form -->
+                        <form action="/deleteHoursheet" method="post" style="display:inline;">
+                            <input type="hidden" name="timeSheetId" th:value="${hourSheet.timeSheetId}" />
+                            <button type="submit">Delete</button>
+                        </form>
+                    </li>
+                </th:block>
+            </th:block>
+            <th:block th:if="${hourSheets == null}">
+                <li>No hour sheets available.</li>
+            </th:block>
+        </ul>
+    </div>
+</body>
+</html>

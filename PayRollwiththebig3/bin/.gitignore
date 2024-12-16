@@ -1,0 +1,60 @@
+# Maven target directory
+/target/
+
+# IntelliJ IDEA files
+/.idea/
+/*.iml
+
+# Eclipse and VS Code files
+/.project
+/.classpath
+/.settings/
+/.vscode/
+
+# Mac OS system files
+.DS_Store
+
+# Logs
+/logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+
+# Environment variables
+.env
+
+# Maven dependencies
+/.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+
+# Build output directories
+out/
+
+# Java class files
+*.class
+
+# Thrift generated code
+gen-java/
+
+# Spring Boot specific
+spring.log
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# Binary files
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Sensitive Files
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
